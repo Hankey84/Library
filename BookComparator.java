@@ -2,7 +2,7 @@ import java.util.Comparator;
 
 public class BookComparator<Title, Author, Genre, Year> {
 
-    public Comparator<Book<String, String, String, Integer>> sortByTitle() {
+    public Comparator<Book<String, String, String, Integer>> sortByTitle() {        
         return Comparator.comparing(book -> book.getTitle().toString());
     }
 

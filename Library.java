@@ -2,13 +2,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 class Library {
+    private String filter;
     private List<Book<String, String, String, Integer>> books;
     private List<Book<String, String, String, Integer>> issuedBooks = new ArrayList<>();
 
     public Library() {
         this.books = new ArrayList<>();
+        this.filter = "по инв.№";
+    }
+
+    public String getFilter(){
+        return filter;
+    }
+
+    public void setFilter(String value){
+        this.filter = value;
     }
 
     public void addBook(Book<String, String, String, Integer> book) {
@@ -19,7 +30,7 @@ class Library {
         issuedBooks.add(book);
     }
 
-    // Метод для выдачи книги из библиотеки
+    // Метод для выдачи книги из библиотеки по названию
     public Book<String, String, String, Integer> borrowBook(String title) {
         for (Book<String, String, String, Integer> book : books) {
             if (book.getTitle().equals(title)) {
@@ -31,11 +42,11 @@ class Library {
         return null;
     }
 
-    public void displayAllBooks(String value) {
-        System.out.printf("Информация о всех книгах в библиотеке(%s):\n", value);
+    public void displayAllBooks() {
+        System.out.printf("Информация о всех книгах в библиотеке(%s):\n", getFilter());
         int count = 0;
         for (Book<String, String, String, Integer> book : books) {
-            switch (value) {
+            switch (getFilter()) {
                 case "по названию":
                     System.out.printf("    %d). %s\n", ++count, book.toStringByTitle());
                     break;
@@ -61,20 +72,22 @@ class Library {
             System.out.printf("    %d). %s\n", ++count, book);
         }
     }
-
-    public List<Book<String, String, String, Integer>> findBooksByAuthor(String author) {
+    
+    // Универсальный метод для поиска книги по заданному предикату
+    public void findBooks(Predicate<Book<String, String, String, Integer>> predicate, String filter) {
         List<Book<String, String, String, Integer>> result = new ArrayList<>();
         for (Book<String, String, String, Integer> book : books) {
-            if (book.getAuthor().equals(author)) {
+            if (predicate.test(book)) {
                 result.add(book);
             }
         }
-        System.out.printf("Были найдены по запросу {%s} книги: %s\n", author, result);
-        return result;
-    }
+        System.out.printf("Были найдены по запросу {%s} книги: %s\n", filter, result);
 
+    }    
+    
     // Метод сортировки книг по переданному компаратору
-    public void sortBooksByParameter(Comparator<Book<String, String, String, Integer>> comparator) {
+    public void sortBooksByParameter(Comparator<Book<String, String, String, Integer>> comparator, String filter) {
+        setFilter(filter);
         Collections.sort(books, comparator);
     }
 }

@@ -1,6 +1,6 @@
 class Book<Title, Author, Genre, Year> {
     private static int number;
-    private int id;
+    private int id;    
     private Title title;
     private Author author;
     private Genre genre;
@@ -11,7 +11,7 @@ class Book<Title, Author, Genre, Year> {
     }
 
     public Book(Title title, Author author, Genre genre, Year year) {
-        this.id =  ++number; 
+        this.id =  ++number;
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -43,19 +43,19 @@ class Book<Title, Author, Genre, Year> {
         return toStringByTitle();
     }
     public String toStringById(){
-        return "Инв.№ "+ id + ", " + title + ", " + author + ", " + genre + ", " + year + "г.";
+        return "Инв.№ "+ id + ", '" + title + "', " + author + ", '" + genre + "', " + year + "г.";
     }
 
     public String toStringByTitle(){
-        return title + ", " + author + ", " + genre + ", " + year + "г., Инв.№ "+ id;
+        return "'" + title + ", " + author + ", '" + genre + "', " + year + "г., Инв.№ "+ id;
     }
 
     public String toStringByAuthor(){
-        return author + ", " +  title + ", " + genre + ", " + year + "г., Инв.№ "+ id;
+        return author + ", '" +  title + "', '" + genre + "', " + year + "г., Инв.№ "+ id;
     }
 
     public String toStringByYear(){
-        return year + "г., " +  title + ", " + author + ", " + genre + ", Инв.№ "+ id;
+        return year + "г., '" +  title + "', " + author + ", '" + genre + "', Инв.№ "+ id;
     }
     // по остальным полям не стал делать, и так понятен смысл)
 }
