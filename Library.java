@@ -5,6 +5,7 @@ import java.util.List;
 
 class Library {
     private List<Book<String, String, String, Integer>> books;
+    private List<Book<String, String, String, Integer>> issuedBooks = new ArrayList<>();
 
     public Library() {
         this.books = new ArrayList<>();
@@ -14,13 +15,50 @@ class Library {
         books.add(book);
     }
 
-    public Book<String, String, String, Integer> getBook(int index) {
-        return books.get(index);
+    private void addIssuedBook(Book<String, String, String, Integer> book) {
+        issuedBooks.add(book);
     }
 
-    public void displayAllBooks() {
+    // Метод для выдачи книги из библиотеки
+    public Book<String, String, String, Integer> borrowBook(String title) {
         for (Book<String, String, String, Integer> book : books) {
-            System.out.println(book);
+            if (book.getTitle().equals(title)) {
+                addIssuedBook(book);
+                System.out.println("Была выдана книга: " + book);
+                return book;
+            }
+        }
+        return null;
+    }
+
+    public void displayAllBooks(String value) {
+        System.out.printf("Информация о всех книгах в библиотеке(%s):\n", value);
+        int count = 0;
+        for (Book<String, String, String, Integer> book : books) {
+            switch (value) {
+                case "по названию":
+                    System.out.printf("    %d). %s\n", ++count, book.toStringByTitle());
+                    break;
+                case "по авторам":
+                    System.out.printf("    %d). %s\n", ++count, book.toStringByAuthor());
+                    break;
+                case "по годам":
+                    System.out.printf("    %d). %s\n", ++count, book.toStringByYear());
+                    break;
+                case "по инв.№":
+                    System.out.printf("    %d). %s\n", ++count, book.toStringById());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void displayIssuedBooks() {
+        System.out.printf("Информация о выданных книгах:\n");
+        int count = 0;
+        for (Book<String, String, String, Integer> book : issuedBooks) {
+            System.out.printf("    %d). %s\n", ++count, book);
         }
     }
 
@@ -31,6 +69,7 @@ class Library {
                 result.add(book);
             }
         }
+        System.out.printf("Были найдены по запросу {%s} книги: %s\n", author, result);
         return result;
     }
 
@@ -38,5 +77,4 @@ class Library {
     public void sortBooksByParameter(Comparator<Book<String, String, String, Integer>> comparator) {
         Collections.sort(books, comparator);
     }
-    
 }
